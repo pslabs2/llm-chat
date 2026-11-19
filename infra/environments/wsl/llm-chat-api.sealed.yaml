@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: llm-chat-api
+  namespace: llm-chat
+spec:
+  encryptedData:
+    GEMINI_API_KEY: AgCIxCXPxWEH1HjvJwOHfWmJJZQVcNduvTJ2/MsUddMnLqolY+DvFKSx3EaeFZ2hPeZldz3pRm9JaV7VqtQRAUbFw4tE7D+RIz919iTWqtpsiTm2EuXzsMz9I5KjnyMTwc7qADvISs0lah7iV54d4FPSSUK020s94qTsWjgCrnT4EQT89fM5eMFfrEPe44dwa9sxBp2/Wvkl4LjAA5VOd6kXBqZpTfqveWMHizkjQ6egUgML0kOotyH8aQjIxWNKkOQK0+XVEMjzVTZqd7tYGOICBkiBgJQ5iF1BdBg2baKKUnyvpTporQSkcVUwQfYcsEBkcZMwkpwZiDMMB2EB81YVLIRVsqhrsiA9zAweIyKQVKC6vegIv5igRNo/ZPjt7N0KsLAzee0168HcWUiSC8r4AYRN4nuSP30bpkAqhD8JUrp5y8wBvI3P+7h7RacMcgLDOqOd014+4hLW9p0oo0GIgKwUu7iVAcrgTh+Mzs+SlefhEZ2loQBFhM25D28CM3fufFcwo+wuC+m5rkBe1aAu9Q2ol8snnI2Of3uNS4qKgthP30eQ6hqQj9yT3t9uXb0cScsXXBS8Pp79RVV2gHLwRyWN37vc3e7fYKsGT61+290b49jRJrih1qZzfOHwR4h6wWYFoO447D5x5Ru83oLTsWWKRaDznWOdAMzVABfQMru5GJwjaH1OU0yuqqJEIcQ=
+  template:
+    metadata:
+      name: llm-chat-api
+      namespace: llm-chat

@@ -77,8 +77,8 @@ Use `uv run ruff format .` and `npm run format` to format code. GitHub Actions r
 
 Every push to `main` publishes production images to GitHub Container Registry for whichever of `api/` or `web/` changed (run the **Release** workflow manually to publish both):
 
-- `ghcr.io/subedi-labs2/llm-chat-api` — FastAPI on port 8000; configure it with the same environment variables as `api/.env.example`.
-- `ghcr.io/subedi-labs2/llm-chat-web` — the built web app served by nginx on port 8080, which proxies `/api` to `API_UPSTREAM` (default `http://backend:8000`). The API address is looked up per request, so web starts before the API exists. `THEME_TOGGLE` (default `true`) shows the light/dark mode toggle in the header; when `false`, the app stays in light mode. `IDLE_TIMEOUT_SECONDS` (default `30`) returns to the landing page after that many seconds without activity, pausing while a reply streams or the microphone is on; `0` disables it. In Kubernetes, set `API_UPSTREAM` to the Service's fully qualified name, such as `http://api.<namespace>.svc.cluster.local:8000`.
+- `ghcr.io/pslabs2/llm-chat-api` — FastAPI on port 8000; configure it with the same environment variables as `api/.env.example`.
+- `ghcr.io/pslabs2/llm-chat-web` — the built web app served by nginx on port 8080, which proxies `/api` to `API_UPSTREAM` (default `http://backend:8000`). The API address is looked up per request, so web starts before the API exists. `THEME_TOGGLE` (default `true`) shows the light/dark mode toggle in the header; when `false`, the app stays in light mode. `IDLE_TIMEOUT_SECONDS` (default `30`) returns to the landing page after that many seconds without activity, pausing while a reply streams or the microphone is on; `0` disables it. In Kubernetes, set `API_UPSTREAM` to the Service's fully qualified name, such as `http://api.<namespace>.svc.cluster.local:8000`.
 
 Each image is tagged `latest` and `sha-<full commit SHA>`; released images are also tagged with their version (`X.Y.Z` and `X.Y`). Both Dockerfiles are multistage: Compose uses the `dev` stage, and releases use `prod`. To build a production image locally, run `docker build --target prod api` or `docker build --target prod web`.
 
@@ -92,9 +92,9 @@ Browsers allow microphone access only on HTTPS or `localhost`. The app has no lo
 
 The API, web, and speech-to-text have separate Helm charts, published to GHCR as OCI artifacts:
 
-- `oci://ghcr.io/subedi-labs2/charts/llm-chat-api` — Service named after the release (install as `api`).
-- `oci://ghcr.io/subedi-labs2/charts/llm-chat-web` — proxies `/api` to `http://api.<release namespace>.svc.cluster.local:8000` by default; override with `apiUpstream`. Set `themeToggle: false` to hide the light/dark mode toggle in the header (default `true`). Set `idleTimeoutSeconds` to change how long the app waits without activity before returning to the landing page (default `30`, `0` disables it).
-- `oci://ghcr.io/subedi-labs2/charts/llm-chat-stt` — optional [speaches](https://speaches.ai) server for voice input (install as `stt`, then set the API's `STT_URL` to `http://stt:8000`). An init container downloads `model` from Hugging Face into a PersistentVolumeClaim on first start, after which the server runs offline. Its image is about 3.4 GB.
+- `oci://ghcr.io/pslabs2/charts/llm-chat-api` — Service named after the release (install as `api`).
+- `oci://ghcr.io/pslabs2/charts/llm-chat-web` — proxies `/api` to `http://api.<release namespace>.svc.cluster.local:8000` by default; override with `apiUpstream`. Set `themeToggle: false` to hide the light/dark mode toggle in the header (default `true`). Set `idleTimeoutSeconds` to change how long the app waits without activity before returning to the landing page (default `30`, `0` disables it).
+- `oci://ghcr.io/pslabs2/charts/llm-chat-stt` — optional [speaches](https://speaches.ai) server for voice input (install as `stt`, then set the API's `STT_URL` to `http://stt:8000`). An init container downloads `model` from Hugging Face into a PersistentVolumeClaim on first start, after which the server runs offline. Its image is about 3.4 GB.
 
 Install the API and web in either order. Web returns 502 for `/api` until the API is ready.
 
@@ -109,12 +109,12 @@ kubectl create namespace llm-chat
 read -rsp "Gemini API key: " key && echo
 kubectl -n llm-chat create secret generic llm-chat-api --from-literal=GEMINI_API_KEY="$key"
 
-helm upgrade --install api oci://ghcr.io/subedi-labs2/charts/llm-chat-api \
+helm upgrade --install api oci://ghcr.io/pslabs2/charts/llm-chat-api \
   -n llm-chat -f infra/environments/wsl/api-values.yaml --wait
-helm upgrade --install web oci://ghcr.io/subedi-labs2/charts/llm-chat-web \
+helm upgrade --install web oci://ghcr.io/pslabs2/charts/llm-chat-web \
   -n llm-chat -f infra/environments/wsl/web-values.yaml --wait
 # Voice input; the first install pulls a large image and downloads the model.
-helm upgrade --install stt oci://ghcr.io/subedi-labs2/charts/llm-chat-stt \
+helm upgrade --install stt oci://ghcr.io/pslabs2/charts/llm-chat-stt \
   -n llm-chat -f infra/environments/wsl/stt-values.yaml --wait --timeout 15m
 ```
 

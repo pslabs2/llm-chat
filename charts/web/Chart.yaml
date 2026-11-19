@@ -5,6 +5,6 @@ type: application
 # Bump on every chart change; the Release Charts workflow publishes new versions.
 version: 0.1.11
 appVersion: "0.7.0"
-home: https://github.com/subedi-labs2/llm-chat
+home: https://github.com/pslabs2/llm-chat
 sources:
-  - https://github.com/subedi-labs2/llm-chat
+  - https://github.com/pslabs2/llm-chat
