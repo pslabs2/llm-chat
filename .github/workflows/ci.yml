@@ -18,7 +18,6 @@ jobs:
       backend: ${{ steps.filter.outputs.backend }}
       frontend: ${{ steps.filter.outputs.frontend }}
       charts: ${{ steps.filter.outputs.charts }}
-      stt: ${{ steps.filter.outputs.stt }}
     steps:
       - uses: actions/checkout@v6
 
@@ -37,9 +36,6 @@ jobs:
               - 'charts/**'
               - '.github/workflows/ci.yml'
               - '.github/scripts/chart-versions.sh'
-            stt:
-              - 'charts/stt/**'
-              - '.github/workflows/ci.yml'
 
   backend:
     name: Backend

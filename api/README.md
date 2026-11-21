@@ -22,7 +22,7 @@ FastAPI service for the Consumer Product & Vehicle Safety Assistant.
 | `NHTSA_API_URL` / `VPIC_API_URL` / `CPSC_API_URL` | official endpoints                              | Recall data sources                                                                      |
 | `RECALL_API_TIMEOUT_SECONDS`                      | `15`                                            | Timeout for recall API requests                                                          |
 | `MAX_PRODUCT_RECALL_RESULTS`                      | `10`                                            | CPSC results passed to the model                                                         |
-| `STT_URL`                                         | unset                                           | speaches base URL (for example `http://stt:8000`); unset disables voice input            |
+| `STT_URL`                                         | unset                                           | speaches base URL (for example `http://whisper.whisper.svc.cluster.local:8000`); unset disables voice input            |
 | `STT_MODEL`                                       | `Systran/faster-distil-whisper-small.en`        | Transcription model; must be downloaded on the speaches server                           |
 | `STT_LANGUAGE`                                    | `en`                                            | Spoken language passed to the model                                                      |
 | `STT_MAX_SESSIONS`                                | `2`                                             | Concurrent voice sessions per API process; more are rejected with 4429                   |
